@@ -37,6 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static('public'));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -112,7 +113,7 @@ io.sockets.on('connection', function(socket){
       break;
     }
    });
-    
+     
   socket.on('disconnect', function(){
     //io.sockets.emit('vista', socket.id);
     console.log("El usuario "+player+" se ha desconectado");
