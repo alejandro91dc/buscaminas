@@ -1,3 +1,4 @@
+//variables de express y de rutas 
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,29 +8,20 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
-
 //configuracion para socket.io
-//var server = app.listen(3000);
-//var socket = require('socket.io')();
-//var http = require('http');
-//var io = socket.listen(server);
-
 var port = process.env.PORT || 3000;
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 server.listen(port);
 /// lineas CORS-HEADERS
-
 app.get('/', function(req, res, next) {
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Headers", "X-Requested-with");
   next();
 });
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -38,19 +30,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(express.static('public'));
-
 app.use('/', routes);
 app.use('/users', users);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -81,15 +69,8 @@ io.sockets.on('connection', function(socket){
   player +=1;
   console.log("Un usuario salvaje aparecio: usuario "+ player);
   socket.emit('vista', player);
-
   aleatorio = Math.floor((Math.random()* 49)+1);
-
   socket.broadcast.emit('bomba', aleatorio);
-  /*socket.on('bomba', function(aleatorio){
-    io.sockets.emit('bomba', aleatorio);
-  });*/
-
-    
   socket.on('click', function(seccion){
     console.log ("el usuario "+player+" ha clicado")
     /*if (socket.id == 0)
@@ -115,17 +96,8 @@ io.sockets.on('connection', function(socket){
    });
      
   socket.on('disconnect', function(){
-    //io.sockets.emit('vista', socket.id);
     console.log("El usuario "+player+" se ha desconectado");
-  });
-
-  //});
-  
-    
-    //console.log("id del jugador: "+ player+" : " socket.id);
-
-
-  
+  }); 
 });
 
 module.exports = io;
