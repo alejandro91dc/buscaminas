@@ -1,8 +1,10 @@
 $(document).ready(function() {
 	var socket = io();
 	var element = document.getElementById("marca");
+		jugador_id = socket.id;
 	
 	socket.on('connect', function(){
+		//socket.emit('jugador' jugador_id);
 		console.log('Hola Servidor ');
 	});
 
@@ -71,7 +73,7 @@ $(document).ready(function() {
 			var id = $(this).find('img').length;
 			if (id == 1) {
 			$("img").css({"visibility":"visible"});
-			alert("ha perdido el jugador"+socket.id);
+			alert("ha perdido el jugador"+jugador_id);
 			}	
 		});	
 	}

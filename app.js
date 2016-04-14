@@ -63,23 +63,29 @@ app.use(function(err, req, res, next) {
 
 //Configuracion socket.io para el inicio de conexion e intercambio
 //de eventos
-player = 0;
+p = 0;
+  jugadores = [];
 io.sockets.on('connection', function(socket){
-  socket.id = player;
-  player +=1;
+  socket.id;
+
+  jugadores.push(socket.id);
+  var player = jugadores.indexOf(socket.id);
+   
   console.log("Un usuario salvaje aparecio: usuario "+ player);
   socket.emit('vista', player);
   aleatorio = Math.floor((Math.random()* 49)+1);
   socket.broadcast.emit('bomba', aleatorio);
   socket.on('click', function(seccion){
-    console.log ("el usuario "+player+" ha clicado")
+    console.log (jugadores.length);
+    console.log ("el usuario "+socket.id+" ha clicado");
+    console.log ("el usuario "+socket.id+ "es el numero "+ player);
     /*if (socket.id == 0)
       io.sockets.emit('accion', seccion);
     else if (socket.id == 1) 
       io.sockets.emit('accion2', seccion);
     else
       io.sockets.emit('accion3', seccion);*/
-    switch (socket.id) {
+    switch (player) {
       case 0: io.sockets.emit('azul', seccion);
       break;
       case 1: io.sockets.emit('rosa', seccion);
