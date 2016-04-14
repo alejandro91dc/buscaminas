@@ -102,6 +102,7 @@ io.sockets.on('connection', function(socket){
    });
      
   socket.on('disconnect', function(){
+    jugadores.pop(socket.id); 
     console.log("El usuario "+player+" se ha desconectado");
   }); 
 });
